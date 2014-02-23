@@ -1,4 +1,6 @@
-package com.ocean.common;
+package com.ocean.repository;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -14,9 +16,24 @@ import com.ocean.entity.User;
 public class DataHelper extends OrmLiteSqliteOpenHelper {
 	private static final String DATABASE_NAME = "AddressBook.db";
 	public static int DATABASE_VERSION = 1;
+	// we do this so there is only one helper
+	private static DataHelper helper = null;
+
+	private static final AtomicInteger usageCounter = new AtomicInteger(0);
 
 	public DataHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+
+	/*
+	 * 单例获得示例
+	 */
+	public static synchronized DataHelper getHelper(Context context) {
+		if (helper == null) {
+			helper = new DataHelper(context);
+		}
+		usageCounter.incrementAndGet();
+		return helper;
 	}
 
 	@Override
@@ -31,7 +48,7 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
 			}
 
 			Log.e(DataHelper.class.getName(), "创建数据库成功");
-			
+
 		} catch (SQLException e) {
 			Log.e(DataHelper.class.getName(), "创建数据库失败", e);
 			e.printStackTrace();
@@ -45,7 +62,7 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			try {
 				TableUtils.dropTable(connectionSource, User.class, true);
-				onCreate(db,connectionSource);
+				onCreate(db, connectionSource);
 			} catch (java.sql.SQLException e) {
 				e.printStackTrace();
 			}
@@ -59,9 +76,13 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
 
 	@Override
 	public void close() {
-		super.close();
+		if (usageCounter.decrementAndGet() == 0) {
+			super.close();
+			helper = null;
+		}
 	}
-	public Dao<User,Integer> GetUserDao() throws java.sql.SQLException{
+
+	public Dao<User, Integer> GetUserDao() throws java.sql.SQLException {
 		return getDao(User.class);
 	}
 }

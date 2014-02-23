@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.Dao;
 import com.ocean.activity.R;
-import com.ocean.common.DataHelper;
 import com.ocean.entity.User;
+import com.ocean.repository.DataHelper;
 
 import android.os.Bundle;
 import android.app.Activity;
