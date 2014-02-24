@@ -6,12 +6,17 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "SYSUSER")
 
 public class User {
-	@DatabaseField(id = true,columnName="ID",generatedId=true)
+	
+	@DatabaseField(columnName="ID",generatedId=true)
+	//@DatabaseField(id = true)
 	private int Id;
+	
 	@DatabaseField(unique = true,columnName="USER_ID")
 	private String userId;
+	
 	@DatabaseField(columnName="PASSWORD",canBeNull=false)
 	private String password;
+	
 	@DatabaseField(columnName="USER_NAME")
 	private String userName;
 

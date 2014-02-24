@@ -1,5 +1,7 @@
-package com.ocean.repository;
+package com.ocean.repository.basic;
 
+import java.io.File;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
@@ -84,5 +86,10 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
 
 	public Dao<User, Integer> GetUserDao() throws java.sql.SQLException {
 		return getDao(User.class);
+	}
+
+	private List<String> ScanPackage() {
+		
+		return null;
 	}
 }
