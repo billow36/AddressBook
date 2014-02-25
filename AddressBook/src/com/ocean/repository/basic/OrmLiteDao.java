@@ -10,14 +10,15 @@ import android.content.Context;
 public class OrmLiteDao<T, ID> implements IOrmLiteDao<T, ID> {
 
 	Dao<T, ID> dao;
-
+	DataHelper dh ;
 	public OrmLiteDao(Context context) {
 		
 		try {
 			@SuppressWarnings("unchecked")
 			Class<T> clazz = (Class<T>) ((ParameterizedType) this.getClass()
 					.getGenericSuperclass()).getActualTypeArguments()[0];
-			dao = DataHelper.getHelper(context).getDao(clazz);
+			dh = DataHelper.getHelper(context);
+			dao = dh.getDao(clazz);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -76,4 +77,11 @@ public class OrmLiteDao<T, ID> implements IOrmLiteDao<T, ID> {
 		return dao.update(object);
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+		dh.close();		
+	}
+	
 }

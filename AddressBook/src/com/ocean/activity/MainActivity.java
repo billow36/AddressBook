@@ -1,18 +1,13 @@
 package com.ocean.activity;
 
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.Set;
+import android.os.Bundle;
+import android.view.Menu;
 
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
-import com.ocean.activity.R;
-import com.ocean.common.ClassLoaderPlugin;
 import com.ocean.entity.User;
 import com.ocean.repository.UserDao;
 import com.ocean.repository.basic.DataHelper;
-
-import android.os.Bundle;
-import android.view.Menu;
 
 public class MainActivity extends OrmLiteBaseActivity<DataHelper> {
 
@@ -22,11 +17,6 @@ public class MainActivity extends OrmLiteBaseActivity<DataHelper> {
 		setContentView(R.layout.activity_main);
 		UserDao userDao;
 		try {
-			Set<Class<?>> classes=ClassLoaderPlugin.getClasses("com.ocean.entity");
-			Iterator<Class<?>> it = classes.iterator();
-			while(it.hasNext()){
-				System.out.println("µ±«∞¿‡:"+it.next());
-			}
 			userDao = new UserDao(this);
 			User u = new User();
 			u.setId(1);
