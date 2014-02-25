@@ -1,7 +1,5 @@
 package com.ocean.repository.basic;
 
-import java.io.File;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import android.content.Context;
@@ -10,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.ocean.entity.User;
@@ -20,7 +17,7 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
 	public static int DATABASE_VERSION = 1;
 	// we do this so there is only one helper
 	private static DataHelper helper = null;
-
+	
 	private static final AtomicInteger usageCounter = new AtomicInteger(0);
 
 	public DataHelper(Context context) {
@@ -83,13 +80,10 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
 			helper = null;
 		}
 	}
-
-	public Dao<User, Integer> GetUserDao() throws java.sql.SQLException {
-		return getDao(User.class);
-	}
-
-	private List<String> ScanPackage() {
-		
-		return null;
+	
+	public void GetConn(){
+		if(helper!=null){
+			helper.getWritableDatabase().beginTransaction();
+		}
 	}
 }

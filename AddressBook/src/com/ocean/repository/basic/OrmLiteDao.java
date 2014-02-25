@@ -33,16 +33,30 @@ public class OrmLiteDao<T, ID> implements IOrmLiteDao<T, ID> {
 	}
 
 	@Override
-	public boolean deleteAll() {
+	public int deleteAll() throws SQLException {
 		// TODO Auto-generated method stub
-		return false;
+		return 0;
 	}
 
 	@Override
 	public int executeSql(String sql) throws SQLException {
 		// TODO Auto-generated method stub
+		
 		return dao.executeRawNoArgs(sql);
 
+	}
+
+	@Override
+	public int executeSql(String sql, String... arguments) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.executeRaw(sql, arguments);
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+		dh.close();		
 	}
 
 	@Override
@@ -56,6 +70,13 @@ public class OrmLiteDao<T, ID> implements IOrmLiteDao<T, ID> {
 	public T findById(ID id) throws SQLException {
 		// TODO Auto-generated method stub
 		return dao.queryForId(id);
+	}
+
+	@Override
+	public int save(List<T> objects) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		return 0;
 	}
 
 	@Override
@@ -75,13 +96,6 @@ public class OrmLiteDao<T, ID> implements IOrmLiteDao<T, ID> {
 	public int update(T object) throws SQLException {
 		// TODO Auto-generated method stub
 		return dao.update(object);
-	}
-
-	@Override
-	protected void finalize() throws Throwable {
-		// TODO Auto-generated method stub
-		super.finalize();
-		dh.close();		
 	}
 	
 }
